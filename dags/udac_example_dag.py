@@ -158,7 +158,14 @@ load_time_dimension_table = LoadDimensionOperator(
 
 run_quality_checks = DataQualityOperator(
     task_id='Run_data_quality_checks',
-    dag=dag
+    dag=dag,
+    tests = [
+        ('SELECT COUNT(*) FROM users WHERE user_id IS NULL', 0),
+        ('SELECT COUNT(*) FROM songs WHERE song_id IS NULL', 0),
+        ('SELECT COUNT(*) FROM artists WHERE artist_id IS NULL', 0),
+        ('SELECT COUNT(*) FROM time_table WHERE start_time IS NULL', 0),
+        ('SELECT COUNT(*) FROM songplays WHERE songplay_id IS NULL', 0)
+    ]
 )
 
 end_operator = DummyOperator(
