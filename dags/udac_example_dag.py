@@ -114,7 +114,8 @@ load_songplays_table = LoadFactOperator(
     task_id='Load_songplays_fact_table',
     dag=dag,
     redshift_conn_id = "redshift",
-    table = "songplays"
+    table = "songplays",
+    table_specific_sql = SqlQueries.songplay_table_insert
 )
 
 load_user_dimension_table = LoadDimensionOperator(
@@ -122,7 +123,8 @@ load_user_dimension_table = LoadDimensionOperator(
     dag=dag,
     redshift_conn_id = "redshift",
     table = "users",
-    table_sepcific_sql = SqlQueries.user_table_insert
+    table_sepcific_sql = SqlQueries.user_table_insert,
+    truncate_table = True
 )
 
 load_song_dimension_table = LoadDimensionOperator(
@@ -130,7 +132,8 @@ load_song_dimension_table = LoadDimensionOperator(
     dag=dag,
     redshift_conn_id = "redshift",
     table = "songs",
-    table_sepcific_sql = SqlQueries.song_table_insert
+    table_sepcific_sql = SqlQueries.song_table_insert,
+    truncate_table = True
 )
 
 load_artist_dimension_table = LoadDimensionOperator(
@@ -138,7 +141,8 @@ load_artist_dimension_table = LoadDimensionOperator(
     dag=dag,
     redshift_conn_id = "redshift",
     table = "artists",
-    table_specific_sql = SqlQueries.artist_table_insert
+    table_specific_sql = SqlQueries.artist_table_insert,
+    truncate_table = True
 )
 
 load_time_dimension_table = LoadDimensionOperator(
@@ -146,7 +150,8 @@ load_time_dimension_table = LoadDimensionOperator(
     dag=dag,
     redshift_conn_id = "redshift",
     table = "time_table",
-    table_specific_sql = SqlQueries.time_table_insert
+    table_specific_sql = SqlQueries.time_table_insert,
+    truncate_table = True
 )
 
 ######################################################## Quality Check ###########################################
