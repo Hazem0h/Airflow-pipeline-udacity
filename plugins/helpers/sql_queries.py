@@ -57,11 +57,6 @@ class SqlQueries:
             session_id          INT,
             location            VARCHAR(MAX),
             user_agent          VARCHAR(MAX),
-
-            FOREIGN KEY (start_time) REFERENCES time_table(start_time),
-            FOREIGN KEY (user_id) REFERENCES {TABLE_NAME_USER}(user_id),
-            FOREIGN KEY (song_id) REFERENCES {TABLE_NAME_SONG}(song_id),
-            FOREIGN KEY (artist_id) REFERENCES {TABLE_NAME_ARTIST}(artist_id)
         );
     """
 
@@ -84,8 +79,6 @@ class SqlQueries:
             artist_id           VARCHAR(MAX),
             year                INT,
             duration            FLOAT,
-
-            FOREIGN KEY (artist_id) REFERENCES {TABLE_NAME_ARTIST}(artist_id)
         );
         """
 
