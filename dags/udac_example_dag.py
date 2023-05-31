@@ -90,12 +90,22 @@ wait_for_table_creation_op = DummyOperator(
 #################################################  S3 To Staging Tables Tasks ################################
 stage_events_to_redshift = StageToRedshiftOperator(
     task_id='Stage_events',
-    dag=dag
+    dag=dag,
+    aws_credentials_id = "aws_credentials",
+    redshift_conn_id = "redshift",
+    table = "staging_events",
+    s3_bucket = "udacity-dend",
+    s3_key = "log_data",
 )
 
 stage_songs_to_redshift = StageToRedshiftOperator(
     task_id='Stage_songs',
-    dag=dag
+    dag=dag,
+    aws_credentials_id = "aws_credentials",
+    redshift_conn_id = "redshift",
+    table = "staging_songs",
+    s3_bucket = "udacity-dend",
+    s3_key = "song_data"
 )
 
 ###########################################  Loading to Fact and Dim Tables Tasks #########################
