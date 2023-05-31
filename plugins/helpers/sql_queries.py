@@ -112,7 +112,16 @@ class SqlQueries:
         )
         DISTSTYLE AUTO;
         """
-
+    
+    # Copy Query
+    redshift_sql_copy = """
+        COPY {} FROM {}
+        ACCESS_KEY_ID '{}'
+        SECRET_ACCESS_KEY '{}'
+        REGION 'us-west-2'
+        FORMAT AS JSON
+        TIMEFORMAT AS 'epochmillisecs';
+    """
 
     # table insertion queries
     songplay_table_insert = ("""
