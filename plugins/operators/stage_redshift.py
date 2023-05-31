@@ -8,6 +8,7 @@ from helpers import SqlQueries
 class StageToRedshiftOperator(BaseOperator):
     ui_color = '#358140'
 
+    template_fields = ("s3_key",)
     @apply_defaults
     def __init__(self,
                  aws_credentials_id="",
@@ -31,10 +32,12 @@ class StageToRedshiftOperator(BaseOperator):
         credentials = aws_hook.get_credentials()
 
         postgres_hook = PostgresHook(postgres_conn_id=self.redshift_conn_id)
+        rendered_s3_key = self.s3_key.format(**context)
+
         postgres_hook.run(
             SqlQueries.redshift_sql_copy.format(
                 self.table,
-                f"s3://{self.s3_bucket}/{self.s3_key}",
+                f"s3://{self.s3_bucket}/{rendered_s3_key}",
                 credentials.access_key,
                 credentials.secret_key
             )
