@@ -12,7 +12,7 @@ AWS_SECRET = os.environ.get('AWS_SECRET')
 # Setup the default args according to the project instructions
 default_args = {
     'owner': 'udacity',
-    'start_date': datetime(2019, 1, 12),
+    'start_date': datetime(2018, 11, 1),
     'depends_on_past': False,
     'retries': 3,
     'retry_delay': timedelta(minutes=5),
@@ -24,7 +24,8 @@ default_args = {
 dag = DAG('udac_example_dag',
           default_args=default_args,
           description='Load and transform data in Redshift with Airflow',
-          schedule_interval='@daily'
+          schedule_interval='@daily',
+          max_active_runs=1 # because start data is waaay behind today, so there'll be a lot of scheduled runs
         )
 
 start_operator = DummyOperator(
@@ -95,7 +96,7 @@ stage_events_to_redshift = StageToRedshiftOperator(
     redshift_conn_id = "redshift",
     table = "staging_events",
     s3_bucket = "udacity-dend",
-    s3_key = "log_data",
+    s3_key = "log_data/{execution_date.year}/{execution_date.month}/{execution_date.day}"
 )
 
 stage_songs_to_redshift = StageToRedshiftOperator(
@@ -149,8 +150,6 @@ load_time_dimension_table = LoadDimensionOperator(
 )
 
 ######################################################## Quality Check ###########################################
-
-
 
 run_quality_checks = DataQualityOperator(
     task_id='Run_data_quality_checks',
