@@ -21,9 +21,11 @@ class DataQualityOperator(BaseOperator):
         for test_query, true_val in self.tests:
             records = redshift_hook.get_records(test_query)
             if len(records) < 1 or len(records[0]) < 1:
+                self.log.error(f"Data quality check failed. {self.table} returned no results")
                 raise ValueError(f"Data quality check failed. {self.table} returned no results")
             num_records = records[0][0]
             if num_records != true_val:
-                raise ValueError(f"Data quality check failed. {self.table} contained {num_records} records")
+                self.log.error(f"Data quality check failed. {self.table} contained {num_records} records, expected result is {true_val}")
+                raise ValueError(f"Data quality check failed. {self.table} contained {num_records} records,  expected result is {true_val}")
 
             

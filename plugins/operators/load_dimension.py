@@ -33,12 +33,15 @@ class LoadDimensionOperator(BaseOperator):
 
         sql = LoadDimensionOperator.dim_sql_insert
         if self.truncate_table:
+            self.log.info("Old data in the table will be truncated")
             truncate_table_sql = LoadDimensionOperator.truncate_table_sql.format(self.table)
             sql = truncate_table_sql + '\n' + sql
         
+        self.log.info("Inserting data into the dimension table")
         postgres_hook.run(
             sql.format(
                 self.table,
                 self.table_sepcific_sql
             )
         )
+        self.log.info("Dimensional data inserted")

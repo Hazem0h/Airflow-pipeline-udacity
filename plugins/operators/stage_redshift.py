@@ -32,8 +32,8 @@ class StageToRedshiftOperator(BaseOperator):
         credentials = aws_hook.get_credentials()
 
         postgres_hook = PostgresHook(postgres_conn_id=self.redshift_conn_id)
-        rendered_s3_key = self.s3_key.format(**context)
 
+        self.log.info("Copying data from S3 to Redshift")
         postgres_hook.run(
             SqlQueries.redshift_sql_copy.format(
                 self.table,
@@ -42,3 +42,4 @@ class StageToRedshiftOperator(BaseOperator):
                 credentials.secret_key
             )
         )
+        self.log.info("Data copying completed from S3 to Redshift")
