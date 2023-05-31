@@ -117,7 +117,7 @@ class SqlQueries:
     """
 
     # table insertion queries
-    redshift_insert_sql = """
+    redshift_sql_insert = """
         INSERT INTO {}
         {}
     """
