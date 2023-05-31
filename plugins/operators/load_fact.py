@@ -6,10 +6,7 @@ from helpers import SqlQueries
 class LoadFactOperator(BaseOperator):
 
     ui_color = '#F98866'
-    redshift_sql_insert = """
-    INSERT INTO {}
-    {}
-    """
+
     @apply_defaults
     def __init__(self,
                  redshift_conn_id="",
@@ -26,7 +23,7 @@ class LoadFactOperator(BaseOperator):
     def execute(self, context):
         postgres_hook = PostgresHook(postgres_conn_id=self.redshift_conn_id)
         postgres_hook.run(
-            LoadFactOperator.redshift_sql_insert.format(
+            SqlQueries.redshift_insert_sql.format(
                 self.table, 
                 SqlQueries.songplay_table_insert)
         )

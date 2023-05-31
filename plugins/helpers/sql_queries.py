@@ -117,6 +117,11 @@ class SqlQueries:
     """
 
     # table insertion queries
+    redshift_insert_sql = """
+        INSERT INTO {}
+        {}
+    """
+
     songplay_table_insert = ("""
         SELECT
                 md5(events.sessionid || events.start_time) songplay_id,
