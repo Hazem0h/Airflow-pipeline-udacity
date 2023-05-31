@@ -87,8 +87,8 @@ class SqlQueries:
             artist_id           VARCHAR(MAX)        PRIMARY KEY,
             name                VARCHAR(MAX),
             location            VARCHAR(MAX),
-            latitude            VARCHAR(MAX),
-            longitude           VARCHAR(MAX)
+            latitude            FLOAT,
+            longitude           FLOAT
         )
         DISTSTYLE AUTO;
         """
